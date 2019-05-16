@@ -1,10 +1,15 @@
 from time import sleep
+import urllib
 from ftplib import FTP, error_perm
 
 ftp = FTP("ssw.iszf.irk.ru", "anonymous", "anonymous")
 
 ftp.cwd("RAO/srh48/2017/")
 months=ftp.nlst()
+
+#filemane='mf_20170101_020541.fit'
+
+
 
 for month in months:
     ftp.cwd(month)
@@ -15,20 +20,15 @@ for month in months:
         fits=ftp.nlst()
         print(ftp.pwd())
         for fit in fits:
-            path=str('ftp://ssw.iszf.irk.ru/RAO/srh48/2017/01/01/mf_20170101_020541.fit')
+            path=ftp.pwd()
             #print(path)
 
+            ftp.cwd(path)
+            ftp.retrbinary("RETR " + fit, open(fit, 'wb').write)
 
             # handle = open(path.rstrip("/") + "/" + fit.lstrip("/"), 'wb')
             # ftp.retrbinary('RETR %s' % fit, handle.write)
             #path="/home/ivan/"
-            ftp.retrbinary("STOR " + fit ,open(path, 'rb').write)
-
-            print("loaded")
+            print("loaded",fit)
             ftp.cwd("..")
             sleep(5)
-
-
-
-    # for day in list(range(1.2)):
-    #     pass
