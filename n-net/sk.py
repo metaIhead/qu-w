@@ -61,11 +61,36 @@ class neuralNetwork:
         #исходящие синалы для выходного слоя
         final_outputs=self.activation_func(final_inputs)
 
+        #print(len(self.wih),type(self.wih))
+        #print("self.who: ",type(self.who),len(self.who),len(self.who[0]))
+        save_wt(self.who,self.wih)
+
         return final_outputs
 
 
+def save_wt(array_who,array_wih):
+    wih=open("wih.txt", 'w')
+    who=open("who.txt", 'w')
+
+    for index in range(len(array_who)):
+        for counter in range(len(array_who[index])):
+            value=str(array_who[index][counter])
+            who.write(value + '\n')
+
+    for index in range(len(array_wih)):
+        for counter in range(len(array_wih[index])):
+            value=str(array_wih[index][counter])
+            wih.write(value + '\n')
+
+    who.close()
+    wih.close()
+    pass
+
+
+
+
 input_nodes=784
-hidden_nodes=100
+hidden_nodes=10 #100-200
 output_nodes=10
 
 
@@ -84,16 +109,14 @@ training_data_file.close()
 epochs = 5
 
 for e in range(epochs):
-    # go through all records in the training data set
     for record in training_data_list:
-        # split the record by the ',' commas
         all_values = record.split(',')
-        # scale and shift the inputs
+        # маштабирование и смещение входных значений
         inputs = (np.asfarray(all_values[1:]) / 255.0 * 0.99) + 0.01
-        # create the target output values (all 0.01, except the desired label which is 0.99)
+        #все целевые значения прюлижаються к 0.01, а маркерное значение к 0.99
         targets = np.zeros(output_nodes) + 0.01
-        # all_values[0] is the target label for this record
         targets[int(all_values[0])] = 0.99
+        #данные уходят на тренровку сети
         n.train(inputs, targets)
         pass
     pass
@@ -104,10 +127,10 @@ test_data_list=test_data_file.readlines()
 test_data_file.close()
 
 test_value=test_data_list[7].split(',')
-print(test_value[0])
+#print(test_value[0])
 
 test_array=(np.asfarray(test_value[1:]).reshape(28,28))
 #mpl.imshow(test_array, cmap="Greys", interpolation='None')
 #mpl.show()
 
-print(n.query((np.asfarray(test_value[1:])/255.0*0.99)+0.01))
+n.query((np.asfarray(test_value[1:])/255.0*0.99)+0.01)
