@@ -18,7 +18,7 @@ class neuralNetwork:
         #функция актифации - сигмойда
         self.activation_func= lambda x: sci.expit(x)
 
-    def train():
+    def train(self, inputs_list,targets_list):
         # ыходные значения в двумерный масив
         inputs = np.array(inputs_list, ndmin=2).T
         targets = np.array(targets_list, ndmin=2).T
@@ -26,16 +26,15 @@ class neuralNetwork:
         # расчёт входящих сигналов для скрытово слоя
         hidden_inputs = np.dot(self.wih, inputs)
         # сигнал  исходящие для скрытого слоя
-        hidden_outputs = self.activation_function(hidden_inputs)
+        hidden_outputs = self.activation_func(hidden_inputs)
 
         # входящие для выходного слоя
         final_inputs = np.dot(self.who, hidden_outputs)
         # исходящие для выходного слоя
-        final_outputs = self.activation_function(final_inputs)
-
+        final_outputs = self.activation_func(final_inputs)
         # ошибки выходного слоя (целевое знач. - фактическое знач.)
         output_errors = targets - final_outputs
-        # hidden layer error is the output_errors, split by weights, recombined at hidden nodes
+        # ошибки скрытого слоя распределения пропорционально коэфицентам связей и рекомбинирование на скрытых узлах
         hidden_errors = np.dot(self.who.T, output_errors)
 
         # обновление весов связей слоёв скрытый--выходной
@@ -63,21 +62,49 @@ class neuralNetwork:
         final_outputs=self.activation_func(final_inputs)
 
         return final_outputs
-        pass
 
 
-data_file=open("/home/ivan/qu-w/eth_help_rashid/mnist_dataset/mnist_train_100.csv", 'r')
-data_list=data_file.readlines()
-data_file.close()
+input_nodes=784
+hidden_nodes=100
+output_nodes=10
 
-all_value=data_list[0].split(',')
-image_array=np.asfarray(all_value[1:]).reshape((28,28))
-mpl.imshow(image_array, cmap="Greys", interpolation='None')
-
-input_nodes=3
-output_nodes=3
-hidden_nodes=3
 
 learning_rate=0.3
 
-n=neuralNetwork(input_nodes,output_nodes,hidden_nodes,learning_rate)
+n=neuralNetwork(input_nodes,hidden_nodes,output_nodes,learning_rate)
+
+training_data_file=open("mnist_dataset/mnist_train_100.csv", 'r')
+training_data_list=training_data_file.readlines()
+training_data_file.close()
+
+
+# train the neural network
+
+# epochs is the number of times the training data set is used for training
+epochs = 5
+
+for e in range(epochs):
+    # go through all records in the training data set
+    for record in training_data_list:
+        # split the record by the ',' commas
+        all_values = record.split(',')
+        # scale and shift the inputs
+        inputs = (np.asfarray(all_values[1:]) / 255.0 * 0.99) + 0.01
+        # create the target output values (all 0.01, except the desired label which is 0.99)
+        targets = np.zeros(output_nodes) + 0.01
+        # all_values[0] is the target label for this record
+        targets[int(all_values[0])] = 0.99
+        n.train(inputs, targets)
+        pass
+    pass
+#
+
+# for record in train_data_list:
+#     all_value=train_data_list[1].split(',')
+#     inputs=(np.asfarray(all_value[1:])/255.0*0.99)+0.01
+#     targets=np.zeros(output_nodes)+0.01
+#
+#     targets[int(all_value[0])]=0.99
+#     n.train(inputs, targets)
+#     #mpl.imshow(image_array, cmap="Greys", interpolation='None')
+#     #mpl.show()
