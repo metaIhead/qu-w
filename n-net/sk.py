@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as mpl
 import scipy.special as sci
 
 class neuralNetwork:
@@ -63,6 +64,15 @@ class neuralNetwork:
 
         return final_outputs
         pass
+
+
+data_file=open("/home/ivan/qu-w/eth_help_rashid/mnist_dataset/mnist_train_100.csv", 'r')
+data_list=data_file.readlines()
+data_file.close()
+
+all_value=data_list[0].split(',')
+image_array=np.asfarray(all_value[1:]).reshape((28,28))
+mpl.imshow(image_array, cmap="Greys", interpolation='None')
 
 input_nodes=3
 output_nodes=3
