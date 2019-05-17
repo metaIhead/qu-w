@@ -78,9 +78,9 @@ training_data_list=training_data_file.readlines()
 training_data_file.close()
 
 
-# train the neural network
+# тренировка нейроной сети
 
-# epochs is the number of times the training data set is used for training
+#эпоха - кол во тренировок с одним и ем же набором данных
 epochs = 5
 
 for e in range(epochs):
