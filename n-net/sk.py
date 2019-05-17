@@ -49,10 +49,10 @@ class neuralNetwork:
     #опрос сети
     def query(self, inputs_list):
         #список входных значений в в двуменрый масив
-        inputs=np.array(inputs_list, ndim=2).T
+        inputs=np.array(inputs_list, ndmin=2).T
 
         #расчитываем входящие сигналы для скрытого слоя
-        hidden_inputs=np.dot(self.whi, inputs)
+        hidden_inputs=np.dot(self.wih, inputs)
         #исходящие сигналы для скрытого слоя
         hidden_outputs=self.activation_func(hidden_inputs)
 
@@ -97,14 +97,17 @@ for e in range(epochs):
         n.train(inputs, targets)
         pass
     pass
-#
 
-# for record in train_data_list:
-#     all_value=train_data_list[1].split(',')
-#     inputs=(np.asfarray(all_value[1:])/255.0*0.99)+0.01
-#     targets=np.zeros(output_nodes)+0.01
-#
-#     targets[int(all_value[0])]=0.99
-#     n.train(inputs, targets)
-#     #mpl.imshow(image_array, cmap="Greys", interpolation='None')
-#     #mpl.show()
+
+test_data_file=open("mnist_dataset/mnist_test_10.csv", 'r')
+test_data_list=test_data_file.readlines()
+test_data_file.close()
+
+test_value=test_data_list[7].split(',')
+print(test_value[0])
+
+test_array=(np.asfarray(test_value[1:]).reshape(28,28))
+#mpl.imshow(test_array, cmap="Greys", interpolation='None')
+#mpl.show()
+
+print(n.query((np.asfarray(test_value[1:])/255.0*0.99)+0.01))
