@@ -42,7 +42,6 @@ class neuralNetwork:
 
         # обновление весов связей слоёв выходной--скрытый
         self.wih += self.lr * np.dot((hidden_errors * hidden_outputs * (1.0 - hidden_outputs)), np.transpose(inputs))
-
         pass
 
 
@@ -121,16 +120,13 @@ for e in range(epochs):
         pass
     pass
 
-
 test_data_file=open("mnist_dataset/mnist_test_10.csv", 'r')
 test_data_list=test_data_file.readlines()
 test_data_file.close()
 
 
 test_value=test_data_list[7].split(',')
-
 test_array=(np.asfarray(test_value[1:]).reshape(28,28))
-
 #mpl.imshow(test_array, cmap="Greys", interpolation='None')
 #mpl.show()
 

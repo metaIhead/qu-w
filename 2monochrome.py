@@ -7,8 +7,8 @@ from scipy.misc import imsave
 import matplotlib.pyplot as mpl
 
 image_file = Image.open("t.png")
-#image = image_file.convert('L') # получение монохромного изображения
-image = image_file.convert('1') # convert image to black and white
+image = image_file.convert('L') # получение монохромного изображения
+#image = image_file.convert('1') # convert image to black and white
 
 #обрезать и сохранить изображение
 border = (143, 58, 126, 52) # left, up, right, bottom
