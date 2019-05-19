@@ -33,7 +33,6 @@ test.close()
 
 test_str=str(test_list[0])
 
-
 value_list=test_str.split(',')[:-1]
 
 #перевести строчку со значениями пикселей в форму для  построиние изображения
