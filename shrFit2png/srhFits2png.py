@@ -18,14 +18,14 @@ from BadaryRAO import BadaryRAO
 freqs5 = [2, 5, 8, 11, 14]
 #freqs32 = int(NP.linspace(0, 31, 32))
 scan = 30
-path='/home/ivan/xsrhedik/fits/'
-path_out = '/home/ivan/xsrhedik/png'
+path='/home/ivan/qu-w/shrFit2png/fits'
+path_out = '/home/ivan/qu-w/shrFit2png/png'
 files = os.listdir(path)
 for file in files:
     if file.endswith('.fit') and file.endswith('mf', 0, 2):
         print(file)
 
-        sF = SrhFitsFile(os.path.join(path, file), 512);
+        sF = SrhFitsFile(os.path.join(path, file), 1024);
         RAO = BadaryRAO(sF.dateObs.split('T')[0])
         
         if len(sF.freqList) == 15:

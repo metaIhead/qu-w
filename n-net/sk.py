@@ -126,11 +126,12 @@ test_data_file=open("mnist_dataset/mnist_test_10.csv", 'r')
 test_data_list=test_data_file.readlines()
 test_data_file.close()
 
+
 test_value=test_data_list[7].split(',')
-#print(test_value[0])
 
 test_array=(np.asfarray(test_value[1:]).reshape(28,28))
+
 #mpl.imshow(test_array, cmap="Greys", interpolation='None')
 #mpl.show()
 
-n.query((np.asfarray(test_value[1:])/255.0*0.99)+0.01)
+# n.query((np.asfarray(test_value[1:])/255.0*0.99)+0.01)
